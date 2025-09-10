@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <title>Admin Signup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="auth-container">
+    <form id="signupForm" class="card">
+      <h2>Admin Signup</h2>
+      <input type="text" id="name" placeholder="Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required minlength="6">
+      <button type="submit" class="btn">Sign up</button>
+      <p id="msg"></p>
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+      };
+      const res = await fetch("/api/admin/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      document.getElementById("msg").textContent = res.ok ? "Signup successful! Go to Login." : data.error;
+    });
+  </script>
+</body>
+</html>
